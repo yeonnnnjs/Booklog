@@ -13,4 +13,13 @@ export class User {
 
     @Column()
     name: string;
+
+    @Column("text", { array: true, default: () => 'ARRAY[]::text[]' })
+    friends: string[];
+
+    @Column("text", { array: true, default: () => 'ARRAY[]::text[]' })
+    waitFriends: string[];
+
+    @Column("text", { array: true, default: () => 'ARRAY[]::text[]' })
+    requestFriends: string[];
 }

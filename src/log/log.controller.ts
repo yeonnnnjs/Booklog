@@ -27,15 +27,15 @@ export class LogController {
     }
 
     @UseGuards(AuthGuard)
-    @Get('viewlog')
-    viewAllLog(@Request() req) {
-        return this.logService.getLogByUserId(req.user.sub);
-    }
-
-    @UseGuards(AuthGuard)
     @Get(':id')
     viewLog(@Param('id') id: number) {
         return this.logService.getLog(id);
+    }
+
+    @UseGuards(AuthGuard)
+    @Get(':userId')
+    viewUserLog(@Param('userId') userId: string, @Request() req) { 
+        return this.logService.getLogByUserId(req.user.sub, userId);
     }
 
     @UseGuards(AuthGuard)

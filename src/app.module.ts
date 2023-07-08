@@ -23,6 +23,7 @@ import { Log } from './log/entities/log.entity';
     }),
     JwtModule.register({
       secret: 'testsecret',
+      signOptions: { expiresIn: '1800s' },
     }),
     UsersModule,
     AuthModule,
