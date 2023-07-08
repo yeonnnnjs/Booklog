@@ -1,9 +1,11 @@
 import {
     Body,
     Controller,
+    Delete,
     Get,
     HttpCode,
     HttpStatus,
+    Param,
     Post,
     Request,
     UseGuards
@@ -21,6 +23,24 @@ export class LogController {
     makeLog(@Request() req) {
         const makeLogDto: MakeLogDto = req.body;
         makeLogDto.userId = req.user.sub;
-        return this.logService.makeLog(makeLogDto)
+        return this.logService.makeLog(makeLogDto);
+    }
+
+    @UseGuards(AuthGuard)
+    @Get('viewlog')
+    viewAllLog(@Request() req) {
+        return this.logService.getLogByUserId(req.user.sub);
+    }
+
+    @UseGuards(AuthGuard)
+    @Get(':id')
+    viewLog(@Param('id') id: number) {
+        return this.logService.getLog(id);
+    }
+
+    @UseGuards(AuthGuard)
+    @Delete('deletelog')
+    deleteLog(id: number) {
+        return this.logService.getLog(id);
     }
 }
