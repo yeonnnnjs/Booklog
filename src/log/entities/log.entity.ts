@@ -16,9 +16,6 @@ export class Log {
     author: string;
 
     @Column()
-    translator: string;
-
-    @Column()
     memo: string;
 
     @Column()

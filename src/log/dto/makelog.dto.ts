@@ -9,8 +9,6 @@ export class MakeLogDto {
 
     @IsNotEmpty()
     author: string;
-    
-    translator: string;
 
     memo: string;
     

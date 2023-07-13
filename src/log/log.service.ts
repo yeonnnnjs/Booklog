@@ -1,10 +1,11 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MakeLogDto } from './dto/makelog.dto';
-import { InsertResult, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Log } from './entities/log.entity';
 import { SimpleLogDto } from './dto/simplelog.dto';
 import { UsersService } from 'src/users/users.service';
+import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class LogService {
@@ -14,9 +15,9 @@ export class LogService {
         private usersService: UsersService,
     ) { }
 
-    async makeLog(makeLogDto: MakeLogDto): Promise<MakeLogDto | undefined> {
-        this.logRepository.insert(makeLogDto);
-        return makeLogDto;
+    async makeLog(makeLogDto: MakeLogDto) {
+        const result = await this.logRepository.insert(makeLogDto);
+        return result.identifiers[0];
     }
 
     async getLogByUserId(myId: string, userId: string): Promise<SimpleLogDto[] | undefined> {
@@ -39,6 +40,20 @@ export class LogService {
     }
 
     async getLog(id: number): Promise<Log | undefined> {
-        return this.logRepository.findOneBy({id});
+        const result = await this.logRepository.findOneBy({id});
+
+        if(!result) {
+            throw new NotFoundException;
+        }
+
+        return result;
+    }
+
+    async deleteLog(id: number) {
+        const result = await this.logRepository.delete({id});
+
+        if(result.affected === 0) {
+            throw new NotFoundException;
+        }
     }
 }

@@ -33,14 +33,14 @@ export class LogController {
     }
 
     @UseGuards(AuthGuard)
-    @Get(':userId')
+    @Get('userlog/:userId')
     viewUserLog(@Param('userId') userId: string, @Request() req) { 
         return this.logService.getLogByUserId(req.user.sub, userId);
     }
 
     @UseGuards(AuthGuard)
-    @Delete('deletelog')
-    deleteLog(id: number) {
-        return this.logService.getLog(id);
+    @Delete('deletelog/:id')
+    deleteLog(@Param('id') id: number) {
+        return this.logService.deleteLog(id);
     }
 }
