@@ -1,33 +1,36 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
-import { JwtModule } from '@nestjs/jwt';
+import { Verify } from './auth/entities/verify.entity';
 import { AuthModule } from './auth/auth.module';
 import { LogModule } from './log/log.module';
 import { Log } from './log/entities/log.entity';
+import { MailModule } from './mail/mail.module';
+import 'dotenv/config'
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'root',
-      password: '1234',
-      database: 'booklog',
-      entities: [User, Log],
-      synchronize: true,
+    ConfigModule.forRoot({
+      isGlobal: true,
     }),
-    JwtModule.register({
-      secret: 'testsecret',
-      signOptions: { expiresIn: '1800s' },
+    TypeOrmModule.forRoot({
+      type: "postgres",
+      host: process.env.DB_HOST,
+      port: (Number)(process.env.DB_PORT),
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      entities: [User, Log, Verify],
+      synchronize: true
     }),
     UsersModule,
     AuthModule,
     LogModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

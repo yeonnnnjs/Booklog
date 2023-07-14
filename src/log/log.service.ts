@@ -22,7 +22,7 @@ export class LogService {
 
     async getLogByUserId(myId: string, userId: string): Promise<SimpleLogDto[] | undefined> {
         if(await this.usersService.isFriend(myId, userId) || myId === userId) {
-            const logs: Log[] = await this.logRepository.findBy({userId});
+            const logs: Log[] = await this.logRepository.findBy({email: userId});
             let simpleLogs: SimpleLogDto[];
     
             logs.forEach((log) => {

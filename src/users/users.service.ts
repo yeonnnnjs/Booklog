@@ -12,8 +12,8 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) { }
 
-  async findOne(userId: string): Promise<User | undefined> {
-    return this.userRepository.findOneBy({ userId });
+  async findOne(email: string): Promise<User | undefined> {
+    return this.userRepository.findOneBy({ email });
   }
 
   async insert(createUserDto: CreateUserDto): Promise<InsertResult | undefined> {

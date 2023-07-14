@@ -15,7 +15,9 @@ import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService) { }
+    constructor(
+        private readonly authService: AuthService
+    ) { }
 
     @HttpCode(HttpStatus.OK)
     @Post('login')
@@ -29,11 +31,21 @@ export class AuthController {
         return this.authService.register(createUserDto);
     }
 
+    @Post('verifyemail')
+    verifyEmail(@Body('email') email: string) {
+        return this.authService.sendVerifyCode(email);
+    }
+
+    @Post('confirm-verifyemail')
+    confirmVerifyEmail(@Body('verifyCode') verifyCode: number) {
+        return this.authService.confirmVerifyCode(verifyCode);
+    }
+
     @UseGuards(AuthGuard)
     @Post('changepw')
     changePW(@Request() req) {
         console.log(req.user.sub, req.body.password);
-        const loginDto: LoginDto = {'userId': req.user.sub, 'password': req.body.password};
+        const loginDto: LoginDto = {'email': req.user.sub, 'password': req.body.password};
         return this.authService.changePW(loginDto);
     }
 

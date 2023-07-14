@@ -1,4 +1,3 @@
-import { User } from "src/users/entities/user.entity";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -7,7 +6,7 @@ export class Log {
     id: number;
 
     @Column()
-    userId: string;
+    email: string;
 
     @Column()
     title: string;
