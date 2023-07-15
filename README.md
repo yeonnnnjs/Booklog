@@ -2,17 +2,19 @@
 
 ## API Docs
 
-| Method | URI                                              | Description                   |
-|--------|--------------------------------------------------|-------------------------------|
-| POST   | [/users/makefriend](#post-usersmakefriend)       | make request to add friend    |
-| POST   | [/users/confirmfriend](#post-usersconfirmfriend) | confirm request to add friend |
-| POST   | [/log/makelog](#post-logmakelog)                 | make booklog                  |
-| GET    | [/log/{id}](#get-logid)                          | get booklog for id            |
-| GET    | [/log/{userId}](#get-loguserid)                  | get booklogs for userId       |
-| DELETE | [/log/deletelog/{id}](#delete-logdeletelogid)    | delete booklog for id         |
-| POST   | [/auth/login](#post-authlogin)                   | login                         |
-| POST   | [/auth/register](#post-authregister)             | make user                     |
-| POST   | [/auth/changepw](#post-authchangepw)             | change password               |
+| Method | URI                                                        | Description                   |
+|--------|------------------------------------------------------------|-------------------------------|
+| POST   | [/users/makefriend](#post-usersmakefriend)                 | make request to add friend    |
+| POST   | [/users/confirmfriend](#post-usersconfirmfriend)           | confirm request to add friend |
+| POST   | [/log/makelog](#post-logmakelog)                           | make booklog                  |
+| GET    | [/log/{id}](#get-logid)                                    | get booklog for id            |
+| GET    | [/log/userlog/{userId}](#get-loguserid)                    | get booklogs for userId       |
+| DELETE | [/log/deletelog/{id}](#delete-logdeletelogid)              | delete booklog for id         |
+| POST   | [/auth/login](#post-authlogin)                             | login                         |
+| POST   | [/auth/register](#post-authregister)                       | make user                     |
+| POST   | [/auth/changepw](#post-authchangepw)                       | change password               |
+| POST   | [/auth/verifymail](#post-authverifymail)                   | send email verify code        |
+| POST   | [/auth/confirm-verifyemail](#post-authconfirm-verifyemail) | confirm verify code           |
 
 
 ### [POST] /users/makefriend
@@ -174,4 +176,36 @@ req.body
 res.body
 ```json
 Change password for 조성연
+```
+
+### [POST] /auth/verifymail
+
+send email verify code  
+
+req.body
+```json
+{
+    "email": "sungyeon52@gmail.com"
+}
+```
+
+res.body
+```json
+
+```
+
+### [POST] /auth/confirm-verifyemail
+
+confirm verify code 
+
+req.body
+```json
+{
+    "verifyCode": 844345
+}
+```
+
+res.body
+```json
+이메일 인증 완료
 ```
