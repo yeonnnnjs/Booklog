@@ -7,7 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Verify } from './entities/verify.entity';
 import { Repository } from 'typeorm';
-import { MailService } from 'src/mail/mail.service';
+import { MailService } from 'mail/mail.service';
 import { VerifyDto } from './dto/verify.dto';
 
 @Injectable()

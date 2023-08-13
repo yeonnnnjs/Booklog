@@ -4,8 +4,7 @@ import { MakeLogDto } from './dto/makelog.dto';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Log } from './entities/log.entity';
 import { SimpleLogDto } from './dto/simplelog.dto';
-import { UsersService } from 'src/users/users.service';
-import { NotFoundError } from 'rxjs';
+import { UsersService } from 'users/users.service';
 
 @Injectable()
 export class LogService {
