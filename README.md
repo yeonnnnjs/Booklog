@@ -4,11 +4,13 @@
 
 | Method | URI                                                        | Description                   |
 |--------|------------------------------------------------------------|-------------------------------|
-| POST   | [/users/makefriend](#post-usersmakefriend)                 | make request to add friend    |
-| POST   | [/users/confirmfriend](#post-usersconfirmfriend)           | confirm request to add friend |
+| POST   | [/users/makefriend](#post-usersmakefriend)                 | make request for add friend   |
+| POST   | [/users/confirmfriend](#post-usersconfirmfriend)           | confirm request for add friend|
+| POST   | [/users/searchfriend](#post-userssearchfriend)             | search friend at user list    |
+| GET    | [/users/profile/{userId}](#get-usersprofileuserid)         | get user profile for userid   |
 | POST   | [/log/makelog](#post-logmakelog)                           | make booklog                  |
 | GET    | [/log/{id}](#get-logid)                                    | get booklog for id            |
-| GET    | [/log/userlog/{userId}](#get-loguserid)                    | get booklogs for userId       |
+| GET    | [/log/userlog/{userId}](#get-loguserloguserid)             | get booklogs for userId       |
 | DELETE | [/log/deletelog/{id}](#delete-logdeletelogid)              | delete booklog for id         |
 | POST   | [/auth/login](#post-authlogin)                             | login                         |
 | POST   | [/auth/register](#post-authregister)                       | make user                     |
@@ -19,7 +21,7 @@
 
 ### [POST] /users/makefriend
 
-make request to add friend
+make request for add friend
 
 req.body
 ```json
@@ -47,6 +49,46 @@ req.body
 res.body
 ```json
 친구 추가 완료
+```
+
+### [POST] /users/searchfriend
+
+search friend at user list
+
+req.body
+```json
+{
+  "friendInfo" : "testEmail",
+  "isEmail" : true
+}
+```
+
+res.body
+```json
+[
+    {
+        "id": 2,
+        "name": "조성연",
+        "email": "testEmail",
+        "description": null
+    }
+]
+```
+
+### [GET] /users/profile/{userId}
+
+get user profile for userid  
+
+res.body
+```json
+[
+    {
+        "id": 2,
+        "name": "조성연",
+        "email": "testEmail",
+        "description": null
+    }
+]
 ```
 
 ### [POST] /log/makelog

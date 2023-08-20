@@ -19,9 +19,9 @@ export class LogService {
         return result.identifiers[0];
     }
 
-    async getLogByUserId(myId: string, userId: string): Promise<SimpleLogDto[] | undefined> {
+    async getLogByUserId(myId: number, userId: number): Promise<SimpleLogDto[] | undefined> {
         if(await this.usersService.isFriend(myId, userId) || myId === userId) {
-            const logs: Log[] = await this.logRepository.findBy({email: userId});
+            const logs: Log[] = await this.logRepository.findBy({id : userId});
             let simpleLogs: SimpleLogDto[];
     
             logs.forEach((log) => {

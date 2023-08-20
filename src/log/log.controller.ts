@@ -1,10 +1,7 @@
 import {
-    Body,
     Controller,
     Delete,
     Get,
-    HttpCode,
-    HttpStatus,
     Param,
     Post,
     Request,
@@ -34,7 +31,7 @@ export class LogController {
 
     @UseGuards(AuthGuard)
     @Get('userlog/:userId')
-    viewUserLog(@Param('userId') userId: string, @Request() req) { 
+    viewUserLog(@Param('userId') userId: number, @Request() req) { 
         return this.logService.getLogByUserId(req.user.sub, userId);
     }
 

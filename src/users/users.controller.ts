@@ -1,4 +1,4 @@
-import { Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Post, Get, Request, Param, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'auth/auth.guard';
 import { UsersService } from './users.service';
 
@@ -8,18 +8,24 @@ export class UsersController {
 
     @UseGuards(AuthGuard)
     @Post('makefriend')
-    makeFriend(@Req() req) {
+    makeFriend(@Request() req) {
         return this.usersService.makeFriend(req.user.sub, req.body.friendEmail);
     }
 
     @UseGuards(AuthGuard)
     @Post('confirmfriend')
-    confirmFriend(@Req() req) {
+    confirmFriend(@Request() req) {
         return this.usersService.confirmFriend(req.user.sub, req.body.friendInfo);
     }
 
     @Post('searchfriend')
-    searchFriend(@Req() req) {
+    searchFriend(@Request() req) {
         return this.usersService.searchFriend(req.body.friendInfo, req.body.isEmail);
     }
+
+    @Get('profile/:userId')
+    getProfile(@Param('userId') userId: number) {
+        return this.usersService.getProfile(userId);
+    }
+
 }

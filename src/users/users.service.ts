@@ -26,9 +26,9 @@ export class UsersService {
     return this.userRepository.update(id, loginDto);
   }
 
-  async isFriend(userId: string, friendId: string): Promise<Boolean> {
-    const user: User = await this.findOne(userId); 
-    if(user.friends.indexOf(friendId) != -1) {
+  async isFriend(userId: number, friendId: number): Promise<Boolean> {
+    const user: User = await this.userRepository.findOneBy({ id : userId });
+    if(user.friends.indexOf(String(friendId)) != -1) {
       return true;
     }
     return false;
@@ -49,7 +49,7 @@ export class UsersService {
       email: entity.email,
       description: entity.description
     }));
-    return profileDtos
+    return profileDtos;
   }
 
   async makeFriend(email: string, friendEmail: string) {
@@ -80,5 +80,16 @@ export class UsersService {
     else {
       return "오류";
     }
+  }
+
+  async getProfile(userId: number) {
+    const user: User = await this.userRepository.findOneBy({ id : userId });
+    const profileDto: UserProfileDto = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      description: user.description
+    };
+    return profileDto;
   }
 }
