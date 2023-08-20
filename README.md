@@ -24,7 +24,7 @@ make request to add friend
 req.body
 ```json
 {
-   "friendId": "testId1"
+   "friendEmail": "testEmail1"
 }
 ```
 
@@ -40,7 +40,7 @@ confirm request to add friend
 req.body
 ```json
 {
-   "friendId": "testId"
+   "friendEmail": "testEmail"
 }
 ```
 
@@ -132,7 +132,7 @@ login
 req.body
 ```json
 {
-  "userId": "testId",
+  "email": "testEmail",
   "password": "testPW"
 }
 ```
@@ -151,7 +151,7 @@ make user
 req.body
 ```json
 {
-  "userId": "testId",
+  "email": "testEmail",
   "password": "testPW",
   "name": "조성연"
 }

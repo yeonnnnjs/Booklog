@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { MakeLogDto } from './dto/makelog.dto';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { Log } from './entities/log.entity';
-import { SimpleLogDto } from './dto/simplelog.dto';
+import { SimpleLogDto } from './dto/simpleplog.dto';
 import { UsersService } from 'users/users.service';
 
 @Injectable()

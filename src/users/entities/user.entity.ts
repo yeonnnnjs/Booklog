@@ -5,14 +5,17 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ nullable : false })
     password: string;
 
-    @Column()
+    @Column({ nullable : false })
     email: string;
 
-    @Column()
+    @Column({ nullable : false })
     name: string;
+
+    @Column({ nullable : true })
+    description: string;
 
     @Column("text", { array: true, default: () => 'ARRAY[]::text[]' })
     friends: string[];

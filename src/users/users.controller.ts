@@ -9,12 +9,17 @@ export class UsersController {
     @UseGuards(AuthGuard)
     @Post('makefriend')
     makeFriend(@Req() req) {
-        return this.usersService.makeFriend(req.user.sub, req.body.friendId);
+        return this.usersService.makeFriend(req.user.sub, req.body.friendEmail);
     }
 
     @UseGuards(AuthGuard)
     @Post('confirmfriend')
     confirmFriend(@Req() req) {
-        return this.usersService.confirmFriend(req.user.sub, req.body.friendId);
+        return this.usersService.confirmFriend(req.user.sub, req.body.friendInfo);
+    }
+
+    @Post('searchfriend')
+    searchFriend(@Req() req) {
+        return this.usersService.searchFriend(req.body.friendInfo, req.body.isEmail);
     }
 }

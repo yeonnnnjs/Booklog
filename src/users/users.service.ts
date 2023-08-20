@@ -4,6 +4,8 @@ import { InsertResult, Repository, UpdateResult } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from 'auth/dto/create-user.dto';
 import { LoginDto } from 'auth/dto/login.dto';
+import { UserProfileDto } from './dto/user-profile.dto';
+import { profileEnd } from 'console';
 
 @Injectable()
 export class UsersService {
@@ -32,13 +34,31 @@ export class UsersService {
     return false;
   }
 
-  async makeFriend(id: string, friendId: string) {
-    const user: User = await this.findOne(id); 
-    user.requestFriends.push(friendId);
-    const friend: User = await this.findOne(friendId);
-    friend.waitFriends.push(id);
-    this.userRepository.update(user.id, user);
-    this.userRepository.update(friend.id, friend);
+  async searchFriend(friendInfo: string, isEmail: boolean) {
+    var users: User[]
+    if(isEmail) {
+      users = await this.userRepository.findBy({ email : friendInfo });
+    }
+    else {
+      users = await this.userRepository.findBy({ name : friendInfo });
+    }
+
+    const profileDtos: UserProfileDto[] = users.map(entity => ({
+      id: entity.id,
+      name: entity.name,
+      email: entity.email,
+      description: entity.description
+    }));
+    return profileDtos
+  }
+
+  async makeFriend(email: string, friendEmail: string) {
+    const user: User = await this.findOne(email); 
+    user.requestFriends.push(friendEmail);
+    const friend: User = await this.findOne(friendEmail);
+    friend.waitFriends.push(email);
+    this.update(user.id, user);
+    this.update(friend.id, friend);
     return "친구 추가 요청"
   }
 
@@ -53,8 +73,8 @@ export class UsersService {
       friend.friends.push(id);
       user.waitFriends.splice(idxUser, 1);
       friend.requestFriends.splice(idxFriend, 1);
-      this.userRepository.update(user.id, user);
-      this.userRepository.update(friend.id, friend);
+      this.update(user.id, user);
+      this.update(friend.id, friend);
       return "친구 추가 완료";
     }
     else {
