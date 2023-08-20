@@ -43,13 +43,18 @@ export class UsersService {
       users = await this.userRepository.findBy({ name : friendInfo });
     }
 
-    const profileDtos: UserProfileDto[] = users.map(entity => ({
-      id: entity.id,
-      name: entity.name,
-      email: entity.email,
-      description: entity.description
-    }));
-    return profileDtos;
+    if(!users[0]) {
+      return "유저를 찾을 수 없습니다.";
+    }
+    else {
+      const profileDtos: UserProfileDto[] = users.map(entity => ({
+        id: entity.id,
+        name: entity.name,
+        email: entity.email,
+        description: entity.description
+      }));
+      return profileDtos;
+    }
   }
 
   async makeFriend(email: string, friendEmail: string) {
@@ -84,12 +89,17 @@ export class UsersService {
 
   async getProfile(userId: number) {
     const user: User = await this.userRepository.findOneBy({ id : userId });
-    const profileDto: UserProfileDto = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      description: user.description
-    };
-    return profileDto;
+    if(!user) {
+      return "유저를 찾을 수 없습니다.";
+    }
+    else {
+      const profileDto: UserProfileDto = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        description: user.description
+      };
+      return profileDto;
+    }
   }
 }
