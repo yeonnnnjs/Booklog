@@ -5,7 +5,7 @@ import { User } from './entities/user.entity';
 import { CreateUserDto } from 'auth/dto/create-user.dto';
 import { LoginDto } from 'auth/dto/login.dto';
 import { UserProfileDto } from './dto/user-profile.dto';
-import { profileEnd } from 'console';
+import { UserFriendsDto } from './dto/user-friends.dto';
 
 @Injectable()
 export class UsersService {
@@ -34,13 +34,13 @@ export class UsersService {
     return false;
   }
 
-  async searchFriend(friendInfo: string, isEmail: boolean) {
+  async searchUser(userInfo: string, isEmail: boolean) {
     var users: User[]
     if(isEmail) {
-      users = await this.userRepository.findBy({ email : friendInfo });
+      users = await this.userRepository.findBy({ email : userInfo });
     }
     else {
-      users = await this.userRepository.findBy({ name : friendInfo });
+      users = await this.userRepository.findBy({ name : userInfo });
     }
 
     if(!users[0]) {
@@ -67,20 +67,20 @@ export class UsersService {
     return "친구 추가 요청"
   }
 
-  async confirmFriend(id: string, friendId: string) {
-    const user: User = await this.findOne(id);
-    const friend: User = await this.findOne(friendId);
-    const idxUser: number = user.waitFriends.indexOf(friendId);
-    const idxFriend: number = friend.requestFriends.indexOf(id);
+  async acceptFriend(email: string, friendEmail: string) {
+    const user: User = await this.findOne(email);
+    const friend: User = await this.findOne(friendEmail);
+    const idxUser: number = user.waitFriends.indexOf(friendEmail);
+    const idxFriend: number = friend.requestFriends.indexOf(email);
 
     if (idxUser != -1 && idxFriend != -1) {
-      user.friends.push(friendId);
-      friend.friends.push(id);
+      user.friends.push(friendEmail);
+      friend.friends.push(email);
       user.waitFriends.splice(idxUser, 1);
       friend.requestFriends.splice(idxFriend, 1);
       this.update(user.id, user);
       this.update(friend.id, friend);
-      return "친구 추가 완료";
+      return "친구 추가 신청 수락";
     }
     else {
       return "오류";
@@ -100,6 +100,39 @@ export class UsersService {
         description: user.description
       };
       return profileDto;
+    }
+  }
+
+  async getFriendList(email: string) {
+    const user: User = await this.userRepository.findOneBy({ email : email });
+    if(!user) {
+      return "유저를 찾을 수 없습니다.";
+    }
+    else {
+      const friendsDto: UserFriendsDto = {
+        friends : user.friends,
+        waitFriends : user.waitFriends,
+        requestFriends : user.requestFriends
+      };
+      return friendsDto;
+    }
+  }
+
+  async declineFriend(email: string, friendEmail: string) {
+    const user: User = await this.findOne(email);
+    const friend: User = await this.findOne(friendEmail);
+    const idxUser: number = user.waitFriends.indexOf(friendEmail);
+    const idxFriend: number = friend.requestFriends.indexOf(email);
+
+    if (idxUser != -1 && idxFriend != -1) {
+      user.waitFriends.splice(idxUser, 1);
+      friend.requestFriends.splice(idxFriend, 1);
+      this.update(user.id, user);
+      this.update(friend.id, friend);
+      return "친구 추가 신청 거절";
+    }
+    else {
+      return "오류";
     }
   }
 }

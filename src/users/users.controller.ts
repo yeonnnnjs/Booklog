@@ -7,25 +7,37 @@ export class UsersController {
     constructor(private usersService: UsersService) { }
 
     @UseGuards(AuthGuard)
-    @Post('makefriend')
+    @Post('friend/make')
     makeFriend(@Request() req) {
         return this.usersService.makeFriend(req.user.sub, req.body.friendEmail);
     }
 
     @UseGuards(AuthGuard)
-    @Post('confirmfriend')
-    confirmFriend(@Request() req) {
-        return this.usersService.confirmFriend(req.user.sub, req.body.friendInfo);
+    @Post('friend/accept')
+    acceptFriend(@Request() req) {
+        return this.usersService.acceptFriend(req.user.sub, req.body.friendInfo);
     }
 
-    @Post('searchfriend')
-    searchFriend(@Request() req) {
-        return this.usersService.searchFriend(req.body.friendInfo, req.body.isEmail);
+    @Post('search')
+    searchUser(@Request() req) {
+        return this.usersService.searchUser(req.body.userInfo, req.body.isEmail);
     }
 
     @Get('profile/:userId')
     getProfile(@Param('userId') userId: number) {
         return this.usersService.getProfile(userId);
+    }
+
+    @UseGuards(AuthGuard)
+    @Get('friend/list')
+    getFriend(@Request() req) {
+        return this.usersService.getFriendList(req.user.sub);
+    }
+
+    @UseGuards(AuthGuard)
+    @Post('friend/decline')
+    declineFriend(@Request() req) {
+        return this.usersService.declineFriend(req.user.sub, req.body.friendInfo);
     }
 
 }

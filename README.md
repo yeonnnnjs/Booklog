@@ -4,10 +4,12 @@
 
 | Method | URI                                                        | Description                   |
 |--------|------------------------------------------------------------|-------------------------------|
-| POST   | [/users/makefriend](#post-usersmakefriend)                 | make request for add friend   |
-| POST   | [/users/confirmfriend](#post-usersconfirmfriend)           | confirm request for add friend|
-| POST   | [/users/searchfriend](#post-userssearchfriend)             | search friend at user list    |
+| POST   | [/users/friend/make](#post-usersfriendmake)                | make request for add friend   |
+| POST   | [/users/friend/accept](#post-usersfriendaccept)            | accept request for add friend |
+| POST   | [/users/friend/decline](#post-usersfrienddecline)          | decline request for add friend |
+| POST   | [/users/search](#post-userssearch)                          | search user user                   |
 | GET    | [/users/profile/{userId}](#get-usersprofileuserid)         | get user profile for userid   |
+| GET    | [/users/friend/list](#get-usersfriendlist)                 | get friend list |
 | POST   | [/log/makelog](#post-logmakelog)                           | make booklog                  |
 | GET    | [/log/{id}](#get-logid)                                    | get booklog for id            |
 | GET    | [/log/userlog/{userId}](#get-loguserloguserid)             | get booklogs for userId       |
@@ -19,7 +21,7 @@
 | POST   | [/auth/confirm-verifyemail](#post-authconfirm-verifyemail) | confirm verify code           |
 
 
-### [POST] /users/makefriend
+### [POST] /users/friend/make
 
 make request for add friend
 
@@ -35,9 +37,9 @@ res.body
 친구 추가 요청
 ```
 
-### [POST] /users/confirmfriend
+### [POST] /users/friend/accept
 
-confirm request to add friend
+accept request to add friend
 
 req.body
 ```json
@@ -48,17 +50,33 @@ req.body
 
 res.body
 ```json
-친구 추가 완료
+친구 추가 신청 수락
 ```
 
-### [POST] /users/searchfriend
+### [POST] /users/friend/decline
 
-search friend at user list
+decline request to add friend
 
 req.body
 ```json
 {
-  "friendInfo" : "testEmail",
+   "friendEmail": "testEmail"
+}
+```
+
+res.body
+```json
+친구 추가 신청 거절
+```
+
+### [POST] /users/search
+
+search user
+
+req.body
+```json
+{
+  "userInfo" : "testEmail",
   "isEmail" : true
 }
 ```
@@ -78,6 +96,22 @@ res.body
 ### [GET] /users/profile/{userId}
 
 get user profile for userid  
+
+res.body
+```json
+[
+    {
+        "id": 2,
+        "name": "조성연",
+        "email": "testEmail",
+        "description": null
+    }
+]
+```
+
+### [GET] /users/friend/list
+
+get friend list
 
 res.body
 ```json
